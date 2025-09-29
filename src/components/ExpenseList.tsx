@@ -6,7 +6,6 @@ import { auth, db } from "../firebase";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 
 import {
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -14,6 +13,8 @@ import {
   TableBody,
   IconButton,
   Typography,
+  TableContainer,
+  Paper,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
@@ -55,37 +56,68 @@ const ExpenseList: React.FC = () => {
   };
 
   return (
-    <Paper elevation={3} sx={{ p: 3 }}>
-      <Typography variant="h6" gutterBottom>
+    <TableContainer component={Paper} sx={{ borderRadius: 2, boxShadow: 3 }}>
+      <Typography
+        variant="h6"
+        sx={{ p: 2, borderBottom: "1px solid #eee", fontWeight: "bold" }}
+      >
         Your Expenses
       </Typography>
       <Table>
         <TableHead>
-          <TableRow>
-            <TableCell>Amount</TableCell>
-            <TableCell>Category</TableCell>
-            <TableCell>Description</TableCell>
-            <TableCell>Date</TableCell>
-            <TableCell></TableCell>
+          <TableRow sx={{ backgroundColor: "#f5f5f5" }}>
+            <TableCell>
+              <b>Amount</b>
+            </TableCell>
+            <TableCell>
+              <b>Category</b>
+            </TableCell>
+            <TableCell>
+              <b>Description</b>
+            </TableCell>
+            <TableCell>
+              <b>Date</b>
+            </TableCell>
+            <TableCell align="center">
+              <b>Action</b>
+            </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {expenses.map((exp) => (
-            <TableRow key={exp.id}>
-              <TableCell>₹{exp.amount}</TableCell>
-              <TableCell>{exp.category}</TableCell>
-              <TableCell>{exp.description}</TableCell>
-              <TableCell>{exp.date}</TableCell>
-              <TableCell>
-                <IconButton onClick={() => handleDelete(exp.id)}>
-                  <DeleteIcon color="error" />
-                </IconButton>
+          {expenses.length > 0 ? (
+            expenses.map((exp, index) => (
+              <TableRow
+                key={exp.id}
+                sx={{
+                  backgroundColor: index % 2 === 0 ? "#fafafa" : "white",
+                  "&:hover": { backgroundColor: "#f1f8ff" },
+                }}
+              >
+                <TableCell>₹{exp.amount}</TableCell>
+                <TableCell>{exp.category}</TableCell>
+                <TableCell>{exp.description}</TableCell>
+                <TableCell>{exp.date}</TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    onClick={() => handleDelete(exp.id)}
+                    color="error"
+                    size="small"
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} align="center" sx={{ py: 3 }}>
+                No expenses added yet.
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
-    </Paper>
+    </TableContainer>
   );
 };
 
