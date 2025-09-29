@@ -31,10 +31,9 @@ A web application built with **React + TypeScript + Redux + Firebase** to help u
 ---
 
 ## 🚀 Getting Started
-
+```bash
 
 1️⃣ Clone the repository
-```bash
 git clone https://github.com/your-username/finance-tracker.git
 cd finance-tracker
 
